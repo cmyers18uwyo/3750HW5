@@ -18,6 +18,7 @@ int main(int argc, char* argv[]) {
 	DIR* dir;
 	FILE *infile;
 	struct stat stats;
+	struct dirent *de;
 	if(argc > 1) {
 		for(int i = 1; argv[i] != NULL; i++) {
 			if(argv[i][0] == '-' && dirFlag == 0) {
@@ -41,22 +42,21 @@ int main(int argc, char* argv[]) {
 				dirFlag = 1;
 				dir = opendir(argv[i]);
 				if(dir) {
-					printf(argv[i]);
-					printf("\n");
-					if(stat(argv[i], &stats) ==0) {
-						printf( (S_ISDIR(stats.st_mode)) ? "d" : "-");
-						printf( (stats.st_mode & S_IRUSR) ? "r" : "-");
-						printf( (stats.st_mode & S_IWUSR) ? "w" : "-");
-						printf( (stats.st_mode & S_IXUSR) ? "x" : "-");
-						printf( (stats.st_mode & S_IRGRP) ? "r" : "-");
-						printf( (stats.st_mode & S_IWGRP) ? "w" : "-");
-						printf( (stats.st_mode & S_IXGRP) ? "x" : "-");
-						printf( (stats.st_mode & S_IROTH) ? "r" : "-");
-						printf( (stats.st_mode & S_IWOTH) ? "w" : "-");
-						printf( (stats.st_mode & S_IXOTH) ? "x" : "-");
-						printf("\n");
+					while((de = readdir(dir)) != NULL) {
+						if(stat(de->d_name, &stats) ==0) {
+							printf( (S_ISDIR(stats.st_mode)) ? "d" : "-");
+							printf( (stats.st_mode & S_IRUSR) ? "r" : "-");
+							printf( (stats.st_mode & S_IWUSR) ? "w" : "-");
+							printf( (stats.st_mode & S_IXUSR) ? "x" : "-");
+							printf( (stats.st_mode & S_IRGRP) ? "r" : "-");
+							printf( (stats.st_mode & S_IWGRP) ? "w" : "-");
+							printf( (stats.st_mode & S_IXGRP) ? "x" : "-");
+							printf( (stats.st_mode & S_IROTH) ? "r" : "-");
+							printf( (stats.st_mode & S_IWOTH) ? "w" : "-");
+							printf( (stats.st_mode & S_IXOTH) ? "x" : "-");
+							printf("\n");
+						}
 					}
-					
 				}
 				else {
 					infile = fopen(argv[i], "r");
