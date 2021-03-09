@@ -1,0 +1,25 @@
+/*
+* hw5_pcode.txt
+* Author: Charles Myers
+* Date: Mar 9, 2020
+*
+* COSC 3750, Homework 5
+*
+* Pseudocode for the wyls file
+*
+
+IF there is more than one argument
+	ITERATE through all the arguments
+		IF there is the char - and we have not read any directory/file names yet
+			IF if its an acceptle option
+				FLAG that we will change output depending on that option
+			ELSE
+				Give an error and END the program
+		ELSE IF there is non option argument
+			FLAG we have read a directory
+			IF the arguemnt directory/file is valid
+				DISPLAY the output depending on which options were used
+			ELSE
+				Give an error
+ELSE
+	DISPLAY the current directory
