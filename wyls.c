@@ -54,34 +54,14 @@ int main(int argc, char* argv[]) {
 							printf( (stats.st_mode & S_IROTH) ? "r" : "-");
 							printf( (stats.st_mode & S_IWOTH) ? "w" : "-");
 							printf( (stats.st_mode & S_IXOTH) ? "x" : "-");
+							printf (stats.st_size);
+							printf(getpwnam());
 							printf("\n");
 						}
 					}
 				}
 				else {
-					infile = fopen(argv[i], "r");
-					if(infile == NULL) {
-						perror(argv[i]);
-					}
-					else {
-						if(stat(argv[i], &stats) ==0) {
-							printf( (S_ISDIR(stats.st_mode)) ? "d" : "-");
-							printf( (stats.st_mode & S_IRUSR) ? "r" : "-");
-							printf( (stats.st_mode & S_IWUSR) ? "w" : "-");
-							printf( (stats.st_mode & S_IXUSR) ? "x" : "-");
-							printf( (stats.st_mode & S_IRGRP) ? "r" : "-");
-							printf( (stats.st_mode & S_IWGRP) ? "w" : "-");
-							printf( (stats.st_mode & S_IXGRP) ? "x" : "-");
-							printf( (stats.st_mode & S_IROTH) ? "r" : "-");
-							printf( (stats.st_mode & S_IWOTH) ? "w" : "-");
-							printf( (stats.st_mode & S_IXOTH) ? "x" : "-");
-							printf("\n");
-					}
-						
-					}
 				}
-				
-				
 			}
 		}
 		
