@@ -18,6 +18,8 @@
 #include <nss.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
+
 int main(int argc, char* argv[]) {
         int dirFlag = 0, nFlag = 0, hFlag = 0;
         DIR* dir;
@@ -25,7 +27,9 @@ int main(int argc, char* argv[]) {
         struct dirent *de;
 		struct passwd pwd;
 		struct passwd *result;
+		struct tm time;
 		char *buf[1024];
+		char dates[256];
         if(argc > 1) {
                 //printf("Hello \n");
                 for(int i = 1; argv[i] != NULL; i++) {
@@ -77,7 +81,13 @@ int main(int argc, char* argv[]) {
                                                                 printf ("%ld",stats.st_size);
                                                                 printf(" ");
                                                                 printf("%s", pwd.pw_name);
+																printf(" ");
                                                                 printf("%s",de->d_name);
+																printf(" ");
+																localtime_r(&stats.st_mtime, &time);
+																strftime(dates, sizeof(dates), "%B %A %Y", &time);
+																printf("%s",dates);
+
                                                                 printf("\n");
                                                 }
                                                 }
