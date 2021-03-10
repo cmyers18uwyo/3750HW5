@@ -13,6 +13,9 @@
 #include <string.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <pwd.h>
+#include <nss.h>
 #include <stdlib.h>
 #include <unistd.h>
 int main(int argc, char* argv[]) {
@@ -20,6 +23,10 @@ int main(int argc, char* argv[]) {
         DIR* dir;
         struct stat stats;
         struct dirent *de;
+		struct passwd pwd;
+		struct passwd *result;
+		char *buf[1024];
+		int s;
         if(argc > 1) {
                 //printf("Hello \n");
                 for(int i = 1; argv[i] != NULL; i++) {
@@ -48,13 +55,15 @@ int main(int argc, char* argv[]) {
                                 //printf("%s",path);
                                 //printf("\n");
                                 dir = opendir(argv[i]);
-								char *path[4096] = '';
-                                //char pathbuf[4096];
                                 if(dir) {
                                         while((de = readdir(dir)) != NULL) {
-											strcpy(path, de->d_name);
+                                                char path[4096] = "";
+                                                strcat(path,argv[i]);
+                                                strcat(path,"/");
                                                 if(strcmp(de->d_name,".") != 0 && strcmp(de->d_name,"..") != 0) {
+                                                        strcat(path,de->d_name);
                                                         if(stat(path,&stats) == 0) {
+																getpwnam_r(getlogin(),&pwd, buf, sizeof buf, &result);
                                                                 printf( (S_ISDIR(stats.st_mode)) ? "d" : "-");
                                                                 printf( (stats.st_mode & S_IRUSR) ? "r" : "-");
                                                                 printf( (stats.st_mode & S_IWUSR) ? "w" : "-");
@@ -68,7 +77,7 @@ int main(int argc, char* argv[]) {
                                                                 printf(" ");
                                                                 printf ("%ld",stats.st_size);
                                                                 printf(" ");
-                                                                printf("%s",getlogin());
+                                                                printf("Username: %s", pwent.pw_name);
                                                                 printf("%s",de->d_name);
                                                                 printf("\n");
                                                 }
