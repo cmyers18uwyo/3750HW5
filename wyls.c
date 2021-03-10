@@ -75,8 +75,8 @@ int main(int argc, char* argv[]) {
 																printf((stats.st_mode & S_IXOTH) ? "x" : "-");
 															printf(" ");
 															if(nFlag == 1) {
-															printf("%d", stats.st_uid);
-															printf("%d", stats.st_gid);
+																printf("%d", stats.st_uid);
+																printf("%d", stats.st_gid);
 															}
 															else {
 																pwd = getpwuid(stats.st_uid);
@@ -85,17 +85,19 @@ int main(int argc, char* argv[]) {
 																printf("%s", grp->gr_name);
 															}
                                                             printf(" ");
+															
 															if(hFlag == 1) {
 																float byteSize
-																if(stats.st_size >= 1024) {
+																long statsSize = stats.st_size;
+																if(statsSize >= 1024) {
 																	byteSize = stats.st_size / 1024;
 																	printf ("%.1f",byteSize);
 																}
-																else if(stats.st_size >= 1048576) {
+																else if(statsSize >= 1048576) {
 																	byteSize = stats.st_size / 1048576;
 																	printf ("%.1f",byteSize);
 																}
-																else if(stats.st_size >= 1073741824) {
+																else if(statsSize >= 1073741824) {
 																	byteSize = stats.st_size / 1073741824;
 																	printf ("%.1f",byteSize);
 																}
