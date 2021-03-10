@@ -131,15 +131,22 @@ int main(int argc, char* argv[]) {
 									printf ("%ld",stats.st_size);
 								}
 								printf(" ");
-
+								struct tm nowTime;
+								localtime(&nowTime);
 								localtime_r(&stats.st_mtime, &time);
-								strftime(dates, sizeof(dates), "%b %d %Y", &time);
+								strftime(dates, sizeof(dates), "%b %e %Y", &time);
+								double difTime(time,nowTime);
+								if(difTime / 86400 >= 180) {
+									strftime(dates, sizeof(dates), "%b %e", &time);
+									printf("%s",dates);
+								}
+								else {
 								printf("%s",dates);
-																		   
+								}
 								printf(" ");
 
-								printf("%s",argv[1]);
-
+								printf("%s",argv[i]);
+					
 								printf("\n");
 								
 							}
@@ -222,7 +229,7 @@ void fileOutput(struct stat stats, struct dirent *de, struct tm time, int nFlag,
 	printf(" ");
 
 	localtime_r(&stats.st_mtime, &time);
-	strftime(dates, 256, "%b %d %Y", &time);
+	strftime(dates, 256, "%b %e %Y", &time);
 	printf("%s",dates);
 											
 	printf(" ");
