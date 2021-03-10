@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
                                                 strcat(path,argv[i]);
                                                 strcat(path,"/");
                                                 //if(strcmp(de->d_name,".") != 0 && strcmp(de->d_name,"..") != 0) {
-												if(de->d_name[0] == '.') {
+												if(de->d_name[0] != '.') {
                                                         strcat(path,de->d_name);
                                                         if(stat(path,&stats) == 0) {
 																printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
