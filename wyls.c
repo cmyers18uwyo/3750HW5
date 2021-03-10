@@ -19,13 +19,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
+#include <grp.h>
 
 int main(int argc, char* argv[]) {
         int dirFlag = 0, nFlag = 0, hFlag = 0;
         DIR* dir;
         struct stat stats;
         struct dirent *de;
-		struct passwd pwd;
+		struct passwd *pwd;
+		struct group *grp;
 		struct tm time;
 		char *buf[1024];
 		char dates[256];
@@ -66,6 +68,7 @@ int main(int argc, char* argv[]) {
                                                         strcat(path,de->d_name);
                                                         if(stat(path,&stats) == 0) {
 																pwd = getpwuid(stats.st_uid);
+																grp = getgrgid(statbuf.st_gid);
                                                                 printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
                                                                 printf((stats.st_mode & S_IRUSR) ? "r" : "-");
                                                                 printf((stats.st_mode & S_IWUSR) ? "w" : "-");
@@ -79,9 +82,12 @@ int main(int argc, char* argv[]) {
                                                                 printf(" ");
                                                                 printf ("%ld",stats.st_size);
                                                                 printf(" ");
-                                                                printf("%s", pwd.pw_name);
+                                                                printf("%s", pwd->pw_name);
+																printf("%s", grp->gr_name);
 																printf(" ");
                                                                 printf("%s",de->d_name);
+																
+
 																printf(" ");
 																localtime_r(&stats.st_mtime, &time);
 																strftime(dates, sizeof(dates), "%b %A %Y", &time);
