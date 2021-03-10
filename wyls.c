@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
 								printf(" ");
 						   
 								localtime_r(&stats.st_mtime, &time);
-								strftime(dates, sizeof(dates), "%b %A %Y", &time);
+								strftime(dates, sizeof(dates), "%b %d %Y", &time);
 								printf("%s",dates);
 																		
 								printf(" ");
@@ -135,12 +135,12 @@ int main(int argc, char* argv[]) {
 					}
 					//if the argument is a file and not a directory
 					else {
-						infile=fopen(argv[1], "r");
+						infile=fopen(argv[i], "r");
 						if(infile == NULL) {
 							perror(argv[i]);
 						}
 						else {
-							if(stat(argv[1],&stats) == 0) {
+							if(stat(argv[i],&stats) == 0) {
 								//fileOutput(stats, de, pwd, grp, time, nFlag, hFlag, dates);
 								printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
 								printf((stats.st_mode & S_IRUSR) ? "r" : "-");
@@ -196,7 +196,7 @@ int main(int argc, char* argv[]) {
 								printf(" ");
 
 								localtime_r(&stats.st_mtime, &time);
-								strftime(dates, sizeof(dates), "%b %A %Y", &time);
+								strftime(dates, sizeof(dates), "%b %d %Y", &time);
 								printf("%s",dates);
 																		   
 								printf(" ");
@@ -277,7 +277,7 @@ int main(int argc, char* argv[]) {
 					printf(" ");
 
 					localtime_r(&stats.st_mtime, &time);
-					strftime(dates, sizeof(dates), "%b %A %Y", &time);
+					strftime(dates, sizeof(dates), "%b %d %Y", &time);
 					printf("%s",dates);
 															   
 					printf(" ");
