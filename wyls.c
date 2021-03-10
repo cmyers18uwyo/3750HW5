@@ -165,7 +165,7 @@ int main(int argc, char* argv[]) {
     }
 }
 
-void fileOutput(struct stat stats, struct group *grp, struct tm time, int nFlag,int hFlag,char dates[]) {
+void fileOutput(struct stat stats, struct dirent *de, struct tm time, int nFlag,int hFlag,char dates[]) {
 	struct passwd *pwd;
 	struct group *grp;
 	printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
