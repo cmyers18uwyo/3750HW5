@@ -135,12 +135,13 @@ int main(int argc, char* argv[]) {
 					}
 					//if the argument is a file and not a directory
 					else {
-						infile=fopen(argv[i], "r");
+						infile=fopen(argv[1], "r");
+						printf("%s",argv[1]);
 						if(infile == NULL) {
 							perror(argv[i]);
 						}
 						else {
-							if(stat(path,&stats) == 0) {
+							if(stat(argv[i],&stats) == 0) {
 								fileOutput(stats, de, pwd, grp, time, nFlag, hFlag, dates);
 							}
 						}
@@ -152,7 +153,6 @@ int main(int argc, char* argv[]) {
 	//If no argument was given
     else {
 		dir = opendir(".");
-		dir = opendir(argv[i]);
 		if(dir) {
 			while((de = readdir(dir)) != NULL) {
 				char path[4096] = "";
@@ -170,7 +170,7 @@ int main(int argc, char* argv[]) {
     }
 }
 
-void fileOutput(struct stat stats, struct dirent *de, struct passwd *pwd, struct group *grp, struct tm time, int nFlag, hFlag,char dates) {
+void fileOutput(struct stat stats, struct dirent *de, struct passwd *pwd, struct group *grp, struct tm time, int nFlag,int hFlag,char dates) {
 	printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
 	printf((stats.st_mode & S_IRUSR) ? "r" : "-");
 	printf((stats.st_mode & S_IWUSR) ? "w" : "-");
