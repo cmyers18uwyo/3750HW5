@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
                                                         strcat(path,de->d_name);
                                                         if(stat(path,&stats) == 0) {
 																pwd = getpwuid(stats.st_uid);
-																grp = getgrgid(statbuf.st_gid);
+																grp = getgrgid(stats.st_gid);
                                                                 printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
                                                                 printf((stats.st_mode & S_IRUSR) ? "r" : "-");
                                                                 printf((stats.st_mode & S_IWUSR) ? "w" : "-");
