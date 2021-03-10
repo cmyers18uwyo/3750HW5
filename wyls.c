@@ -26,7 +26,6 @@ int main(int argc, char* argv[]) {
         struct stat stats;
         struct dirent *de;
 		struct passwd pwd;
-		struct passwd *result;
 		struct tm time;
 		char *buf[1024];
 		char dates[256];
@@ -66,17 +65,17 @@ int main(int argc, char* argv[]) {
                                                 if(strcmp(de->d_name,".") != 0 && strcmp(de->d_name,"..") != 0) {
                                                         strcat(path,de->d_name);
                                                         if(stat(path,&stats) == 0) {
-																getpwnam_r(getlogin(),&pwd, buf, sizeof buf, &result);
-                                                                printf( (S_ISDIR(stats.st_mode)) ? "d" : "-");
-                                                                printf( (stats.st_mode & S_IRUSR) ? "r" : "-");
-                                                                printf( (stats.st_mode & S_IWUSR) ? "w" : "-");
-                                                                printf( (stats.st_mode & S_IXUSR) ? "x" : "-");
-                                                                printf( (stats.st_mode & S_IRGRP) ? "r" : "-");
-                                                                printf( (stats.st_mode & S_IWGRP) ? "w" : "-");
-                                                                printf( (stats.st_mode & S_IXGRP) ? "x" : "-");
-                                                                printf( (stats.st_mode & S_IROTH) ? "r" : "-");
-                                                                printf( (stats.st_mode & S_IWOTH) ? "w" : "-");
-                                                                printf( (stats.st_mode & S_IXOTH) ? "x" : "-");
+																pwd = getpwuid(stats.st_uid);
+                                                                printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
+                                                                printf((stats.st_mode & S_IRUSR) ? "r" : "-");
+                                                                printf((stats.st_mode & S_IWUSR) ? "w" : "-");
+                                                                printf((stats.st_mode & S_IXUSR) ? "x" : "-");
+                                                                printf((stats.st_mode & S_IRGRP) ? "r" : "-");
+                                                                printf((stats.st_mode & S_IWGRP) ? "w" : "-");
+                                                                printf((stats.st_mode & S_IXGRP) ? "x" : "-");
+                                                                printf((stats.st_mode & S_IROTH) ? "r" : "-");
+                                                                printf((stats.st_mode & S_IWOTH) ? "w" : "-");
+                                                                printf((stats.st_mode & S_IXOTH) ? "x" : "-");
                                                                 printf(" ");
                                                                 printf ("%ld",stats.st_size);
                                                                 printf(" ");
@@ -85,7 +84,7 @@ int main(int argc, char* argv[]) {
                                                                 printf("%s",de->d_name);
 																printf(" ");
 																localtime_r(&stats.st_mtime, &time);
-																strftime(dates, sizeof(dates), "%B %A %Y", &time);
+																strftime(dates, sizeof(dates), "%b %A %Y", &time);
 																printf("%s",dates);
 
                                                                 printf("\n");
