@@ -34,7 +34,6 @@ int main(int argc, char* argv[]) {
 	if(argc > 1) {
 		for(int i = 1; argv[i] != NULL; i++) {
 			if(argv[i][0] == '-' && dirFlag == 0) {
-				printf("Hello - \n");
 				if(strcmp(argv[i], "-n") == 0 && nFlag == 0) {
 						nFlag = 1;
 				}
@@ -63,8 +62,8 @@ int main(int argc, char* argv[]) {
 						if(de->d_name[0] != '.') {
 							strcat(path,de->d_name);
 							if(stat(path,&stats) == 0) {
-								//fileOutput(stats, de, pwd, grp, time, nFlag, hFlag, dates);
-								
+								fileOutput(stats, de, pwd, grp, time, nFlag, hFlag, dates);
+								/*
 								printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
 								printf((stats.st_mode & S_IRUSR) ? "r" : "-");
 								printf((stats.st_mode & S_IWUSR) ? "w" : "-");
@@ -127,7 +126,7 @@ int main(int argc, char* argv[]) {
 								printf("%s",de->d_name);
 							
 								printf("\n");
-								
+								*/
 							}
 						}
 					}
@@ -291,8 +290,8 @@ int main(int argc, char* argv[]) {
 		
     }
 }
-/*
-void fileOutput(struct stat stats, struct dirent *de, struct passwd *pwd, struct group *grp, struct tm time, int nFlag,int hFlag,char dates) {
+
+void fileOutput(struct stat stats, struct dirent *de, struct passwd *pwd, struct group *grp, struct tm time, int nFlag,int hFlag,char dates[]) {
 	printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
 	printf((stats.st_mode & S_IRUSR) ? "r" : "-");
 	printf((stats.st_mode & S_IWUSR) ? "w" : "-");
@@ -357,4 +356,3 @@ void fileOutput(struct stat stats, struct dirent *de, struct passwd *pwd, struct
 	printf("\n");
 	
 }
-*/
