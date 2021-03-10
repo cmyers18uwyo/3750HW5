@@ -141,7 +141,7 @@ int main(int argc, char* argv[]) {
 							perror(argv[i]);
 						}
 						else {
-							if(stat(argv[i],&stats) == 0) {
+							if(stat(argv[1],&stats) == 0) {
 								fileOutput(stats, de, pwd, grp, time, nFlag, hFlag, dates);
 							}
 						}
@@ -226,7 +226,7 @@ void fileOutput(struct stat stats, struct dirent *de, struct passwd *pwd, struct
 
 	localtime_r(&stats.st_mtime, &time);
 	strftime(dates, sizeof(dates), "%b %A %Y", &time);
-	printf("%s",dates);
+	printf("%s%d",dates);
 											   
 	printf(" ");
 
