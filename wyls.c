@@ -16,10 +16,18 @@
 int main(int argc, char* argv[]) {
 	int dirFlag = 0, nFlag = 0, hFlag = 0;
 	DIR* dir;
-	FILE *infile;
 	struct stat stats;
 	struct dirent *de;
+	
+	struct passwd pwd;
+    struct passwd *result;
+	char *buf;
+    size_t bufsize = 16384;
+    int s;
+	
+	
 	if(argc > 1) {
+		
 		for(int i = 1; argv[i] != NULL; i++) {
 			if(argv[i][0] == '-' && dirFlag == 0) {
 				if(strcmp(argv[i], "-n") == 0 && nFlag == 0) {
@@ -40,11 +48,13 @@ int main(int argc, char* argv[]) {
 			}
 			else {
 				dirFlag = 1;
+				buf = malloc(bufsize);
 				dir = opendir(argv[i]);
 				if(dir) {
 					while((de = readdir(dir)) != NULL) {
 						if(strcmp(de->d_name,".") != 0 && strcmp(de->d_name,"..") != 0) {
-							if(stat(de->d_name, &stats) ==0) {
+							if(lstat(argv[i], &stats) ==0) {
+								s = getpwnam_r(getlogin(),&pwd, buf, bufsize, &result);
 								printf( (S_ISDIR(stats.st_mode)) ? "d" : "-");
 								printf( (stats.st_mode & S_IRUSR) ? "r" : "-");
 								printf( (stats.st_mode & S_IWUSR) ? "w" : "-");
@@ -56,7 +66,7 @@ int main(int argc, char* argv[]) {
 								printf( (stats.st_mode & S_IWOTH) ? "w" : "-");
 								printf( (stats.st_mode & S_IXOTH) ? "x" : "-");
 								printf ("%ld",stats.st_size);
-								//printf(getpwnam());
+								printf("%s", result);
 								printf("%s",de->d_name);
 								printf("\n");
 						}
