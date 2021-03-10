@@ -136,7 +136,6 @@ int main(int argc, char* argv[]) {
 					//if the argument is a file and not a directory
 					else {
 						infile=fopen(argv[1], "r");
-						printf("%s",argv[1]);
 						if(infile == NULL) {
 							perror(argv[i]);
 						}
@@ -174,17 +173,17 @@ int main(int argc, char* argv[]) {
 									if(statsSize >= 1024) {
 										byteSize = stats.st_size / 1024;
 										printf ("%.1f",byteSize);
-										printf ("K");
+										printf(" K");
 									}
 									else if(statsSize >= 1048576) {
 										byteSize = stats.st_size / 1048576;
 										printf ("%.1f",byteSize);
-										printf ("M");
+										printf (" M");
 									}
 									else if(statsSize >= 1073741824) {
 										byteSize = stats.st_size / 1073741824;
 										printf ("%.1f",byteSize);
-										printf ("G");
+										printf (" G");
 									}
 									else {
 										printf ("%ld",stats.st_size);
@@ -198,7 +197,7 @@ int main(int argc, char* argv[]) {
 
 								localtime_r(&stats.st_mtime, &time);
 								strftime(dates, sizeof(dates), "%b %A %Y", &time);
-								printf("%s%d",dates);
+								printf("%s",dates);
 																		   
 								printf(" ");
 
@@ -218,76 +217,74 @@ int main(int argc, char* argv[]) {
 	//If no argument was given
     else {
 		dir = opendir(".");
-		if(dir) {
-			while((de = readdir(dir)) != NULL) {
-				char path[4096] = ".";
-				if(de->d_name[0] != '.') {
-					strcat(path,de->d_name);
-					if(stat(path,&stats) == 0) {
-						//fileOutput(stats, de, pwd, grp, time, nFlag, hFlag, dates);
-						printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
-						printf((stats.st_mode & S_IRUSR) ? "r" : "-");
-						printf((stats.st_mode & S_IWUSR) ? "w" : "-");
-						printf((stats.st_mode & S_IXUSR) ? "x" : "-");
-						printf((stats.st_mode & S_IRGRP) ? "r" : "-"); 
-						printf((stats.st_mode & S_IWGRP) ? "w" : "-");
-						printf((stats.st_mode & S_IXGRP) ? "x" : "-");
-						printf((stats.st_mode & S_IROTH) ? "r" : "-");
-						printf((stats.st_mode & S_IWOTH) ? "w" : "-");
-						printf((stats.st_mode & S_IXOTH) ? "x" : "-");
+		while((de = readdir(dir)) != NULL) {
+			//char path[4096] = ".";
+			if(de->d_name[0] != '.') {
+				//strcat(path,de->d_name);
+				if(stat(de->d_name,&stats) == 0) {
+					//fileOutput(stats, de, pwd, grp, time, nFlag, hFlag, dates);
+					printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
+					printf((stats.st_mode & S_IRUSR) ? "r" : "-");
+					printf((stats.st_mode & S_IWUSR) ? "w" : "-");
+					printf((stats.st_mode & S_IXUSR) ? "x" : "-");
+					printf((stats.st_mode & S_IRGRP) ? "r" : "-"); 
+					printf((stats.st_mode & S_IWGRP) ? "w" : "-");
+					printf((stats.st_mode & S_IXGRP) ? "x" : "-");
+					printf((stats.st_mode & S_IROTH) ? "r" : "-");
+					printf((stats.st_mode & S_IWOTH) ? "w" : "-");
+					printf((stats.st_mode & S_IXOTH) ? "x" : "-");
+					printf(" ");
+					if(nFlag == 1) {
+						printf("%d", stats.st_uid);
 						printf(" ");
-						if(nFlag == 1) {
-							printf("%d", stats.st_uid);
-							printf(" ");
-							printf("%d", stats.st_gid);
-						}
-						else {
-							pwd = getpwuid(stats.st_uid);
-							grp = getgrgid(stats.st_gid);
-							printf("%s", pwd->pw_name);
-							printf(" ");
-							printf("%s", grp->gr_name);
-						}
+						printf("%d", stats.st_gid);
+					}
+					else {
+						pwd = getpwuid(stats.st_uid);
+						grp = getgrgid(stats.st_gid);
+						printf("%s", pwd->pw_name);
 						printf(" ");
+						printf("%s", grp->gr_name);
+					}
+					printf(" ");
 
-						if(hFlag == 1) {
-							float byteSize;
-							long statsSize = stats.st_size;
-							if(statsSize >= 1024) {
-								byteSize = stats.st_size / 1024;
-								printf ("%.1f",byteSize);
-								printf ("K");
-							}
-							else if(statsSize >= 1048576) {
-								byteSize = stats.st_size / 1048576;
-								printf ("%.1f",byteSize);
-								printf ("M");
-							}
-							else if(statsSize >= 1073741824) {
-								byteSize = stats.st_size / 1073741824;
-								printf ("%.1f",byteSize);
-								printf ("G");
-							}
-							else {
-								printf ("%ld",stats.st_size);
-							}
-							
+					if(hFlag == 1) {
+						float byteSize;
+						long statsSize = stats.st_size;
+						if(statsSize >= 1024) {
+							byteSize = stats.st_size / 1024;
+							printf ("%.1f",byteSize);
+							printf ("K");
+						}
+						else if(statsSize >= 1048576) {
+							byteSize = stats.st_size / 1048576;
+							printf ("%.1f",byteSize);
+							printf ("M");
+						}
+						else if(statsSize >= 1073741824) {
+							byteSize = stats.st_size / 1073741824;
+							printf ("%.1f",byteSize);
+							printf ("G");
 						}
 						else {
 							printf ("%ld",stats.st_size);
 						}
-						printf(" ");
-
-						localtime_r(&stats.st_mtime, &time);
-						strftime(dates, sizeof(dates), "%b %A %Y", &time);
-						printf("%s%d",dates);
-																   
-						printf(" ");
-
-						printf("%s",de->d_name);
-
-						printf("\n");
+						
 					}
+					else {
+						printf ("%ld",stats.st_size);
+					}
+					printf(" ");
+
+					localtime_r(&stats.st_mtime, &time);
+					strftime(dates, sizeof(dates), "%b %A %Y", &time);
+					printf("%s",dates);
+															   
+					printf(" ");
+
+					printf("%s",de->d_name);
+
+					printf("\n");
 				}
 			}
 		}
