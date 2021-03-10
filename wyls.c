@@ -155,9 +155,7 @@ int main(int argc, char* argv[]) {
 		dir = opendir(".");
 		if(dir) {
 			while((de = readdir(dir)) != NULL) {
-				char path[4096] = "";
-				strcat(path,argv[i]);
-				strcat(path,"/");
+				char path[4096] = ".";
 				if(de->d_name[0] != '.') {
 					strcat(path,de->d_name);
 					if(stat(path,&stats) == 0) {
