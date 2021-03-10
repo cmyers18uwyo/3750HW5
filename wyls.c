@@ -93,12 +93,12 @@ int main(int argc, char* argv[]) {
 								if(hFlag == 1) {
 									float byteSize;
 									long statsSize = stats.st_size;
-									if(statsSize >= 1024) {
+									if(statsSize >= 1024 && statsSize <= 1048576) {
 										byteSize = stats.st_size / 1024;
 										printf ("%.1f",byteSize);
 										printf ("K");
 									}
-									else if(statsSize >= 1048576) {
+									else if(statsSize >= 1048576 && statsSize <= 1073741824) {
 										byteSize = stats.st_size / 1048576;
 										printf ("%.1f",byteSize);
 										printf ("M");
@@ -170,12 +170,12 @@ int main(int argc, char* argv[]) {
 								if(hFlag == 1) {
 									float byteSize;
 									long statsSize = stats.st_size;
-									if(statsSize >= 1024) {
+									if(statsSize >= 1024 && statsSize <= 1048576) {
 										byteSize = stats.st_size / 1024;
 										printf ("%.1f",byteSize);
 										printf(" K");
 									}
-									else if(statsSize >= 1048576) {
+									else if(statsSize >= 1048576 && statsSize <= 1073741824) {
 										byteSize = stats.st_size / 1048576;
 										printf ("%.1f",byteSize);
 										printf (" M");
@@ -201,7 +201,7 @@ int main(int argc, char* argv[]) {
 																		   
 								printf(" ");
 
-								printf("%s",de->d_name);
+								printf("%s",argv[1]);
 
 								printf("\n");
 								
@@ -251,12 +251,12 @@ int main(int argc, char* argv[]) {
 					if(hFlag == 1) {
 						float byteSize;
 						long statsSize = stats.st_size;
-						if(statsSize >= 1024) {
+						if(statsSize >= 1024 && statsSize <= 1048576) {
 							byteSize = stats.st_size / 1024;
 							printf ("%.1f",byteSize);
 							printf ("K");
 						}
-						else if(statsSize >= 1048576) {
+						else if(statsSize >= 1048576 && statsSize <= 1073741824) {
 							byteSize = stats.st_size / 1048576;
 							printf ("%.1f",byteSize);
 							printf ("M");
