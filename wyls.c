@@ -29,7 +29,6 @@ int main(int argc, char* argv[]) {
 		struct passwd *pwd;
 		struct group *grp;
 		struct tm time;
-		char *buf[1024];
 		char dates[256];
         if(argc > 1) {
                 //printf("Hello \n");
@@ -53,47 +52,63 @@ int main(int argc, char* argv[]) {
                                 }
                         }
                         else {
-                                //printf("Hello name \n");
                                 dirFlag = 1;
-                               // char* path = realpath(argv[i],NULL);
-                                //printf("%s",path);
-                                //printf("\n");
                                 dir = opendir(argv[i]);
                                 if(dir) {
                                         while((de = readdir(dir)) != NULL) {
                                                 char path[4096] = "";
                                                 strcat(path,argv[i]);
                                                 strcat(path,"/");
-                                                if(strcmp(de->d_name,".") != 0 && strcmp(de->d_name,"..") != 0) {
+                                                //if(strcmp(de->d_name,".") != 0 && strcmp(de->d_name,"..") != 0) {
+												if(de->d_name[0] == '.') {
                                                         strcat(path,de->d_name);
                                                         if(stat(path,&stats) == 0) {
+															statOutput(stats);
+															printf(" ");
+															if(nFlag == 1) {
+															printf("%d", stats.st_uid);
+															printf("%d", stats.st_gid);
+															}
+															else {
 																pwd = getpwuid(stats.st_uid);
 																grp = getgrgid(stats.st_gid);
-                                                                printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
-                                                                printf((stats.st_mode & S_IRUSR) ? "r" : "-");
-                                                                printf((stats.st_mode & S_IWUSR) ? "w" : "-");
-                                                                printf((stats.st_mode & S_IXUSR) ? "x" : "-");
-                                                                printf((stats.st_mode & S_IRGRP) ? "r" : "-");
-                                                                printf((stats.st_mode & S_IWGRP) ? "w" : "-");
-                                                                printf((stats.st_mode & S_IXGRP) ? "x" : "-");
-                                                                printf((stats.st_mode & S_IROTH) ? "r" : "-");
-                                                                printf((stats.st_mode & S_IWOTH) ? "w" : "-");
-                                                                printf((stats.st_mode & S_IXOTH) ? "x" : "-");
-                                                                printf(" ");
-                                                                printf ("%ld",stats.st_size);
-                                                                printf(" ");
-                                                                printf("%s", pwd->pw_name);
+																printf("%s", pwd->pw_name);
 																printf("%s", grp->gr_name);
-																printf(" ");
-                                                                printf("%s",de->d_name);
+															}
+                                                            printf(" ");
+															if(hFlag == 1) {
+																float size
+																if(stats.st_size >= 1024) {
+																	size = stats.st_size / 1024;
+																	printf ("%.1f",size);
+																}
+																else if(stats.st_size >= 1048576) {
+																	size = stats.st_size / 1048576;
+																	printf ("%.1f",size);
+																}
+																else if(stats.st_size >= 1073741824) {
+																	size = stats.st_size / 1073741824;
+																	printf ("%.1f",size);
+																}
+																else {
+																	printf ("%ld",stats.st_size);
+																}
 																
-
-																printf(" ");
-																localtime_r(&stats.st_mtime, &time);
-																strftime(dates, sizeof(dates), "%b %A %Y", &time);
-																printf("%s",dates);
-
-                                                                printf("\n");
+															}
+															else {
+																printf ("%ld",stats.st_size);
+															}
+                                                            printf(" ");
+                                                           
+															localtime_r(&stats.st_mtime, &time);
+															strftime(dates, sizeof(dates), "%b %A %Y", &time);
+															printf("%s",dates);
+														   											   
+															printf(" ");
+															
+                                                            printf("%s",de->d_name);
+															
+															printf("\n");
                                                 }
                                                 }
                                         }
@@ -109,4 +124,16 @@ int main(int argc, char* argv[]) {
         else {
 
         }
+}
+function statOutput(struct stat stats) {
+	printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
+	printf((stats.st_mode & S_IRUSR) ? "r" : "-");
+	printf((stats.st_mode & S_IWUSR) ? "w" : "-");
+	printf((stats.st_mode & S_IXUSR) ? "x" : "-");
+	printf((stats.st_mode & S_IRGRP) ? "r" : "-"); 
+	printf((stats.st_mode & S_IWGRP) ? "w" : "-");
+	printf((stats.st_mode & S_IXGRP) ? "x" : "-");
+	printf((stats.st_mode & S_IROTH) ? "r" : "-");
+	printf((stats.st_mode & S_IWOTH) ? "w" : "-");
+	printf((stats.st_mode & S_IXOTH) ? "x" : "-");
 }
