@@ -134,7 +134,7 @@ int main(int argc, char* argv[]) {
 								struct tm nowTime;
 								localtime(&nowTime);
 								localtime_r(&stats.st_mtime, &time);		
-								double tdif difTime(time,nowTime);
+								double tdif = diffTime(time,nowTime);
 								if(tdif / 86400 >= 180) {
 									strftime(dates, sizeof(dates), "%b %e", &time);
 									printf("%s",dates);
