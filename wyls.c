@@ -133,15 +133,15 @@ int main(int argc, char* argv[]) {
 								printf(" ");
 								struct tm nowTime;
 								localtime(&nowTime);
-								localtime_r(&stats.st_mtime, &time);
-								strftime(dates, sizeof(dates), "%b %e %Y", &time);
+								localtime_r(&stats.st_mtime, &time);		
 								double difTime(time,nowTime);
-								if(difTime / 86400 >= 180) {
+								if(difTime / (double)86400 >= 180) {
 									strftime(dates, sizeof(dates), "%b %e", &time);
 									printf("%s",dates);
 								}
 								else {
-								printf("%s",dates);
+									strftime(dates, sizeof(dates), "%b %e %Y", &time);
+									printf("%s",dates);
 								}
 								printf(" ");
 
