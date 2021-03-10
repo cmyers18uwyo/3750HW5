@@ -63,7 +63,16 @@ int main(int argc, char* argv[]) {
 												if(de->d_name[0] == '.') {
                                                         strcat(path,de->d_name);
                                                         if(stat(path,&stats) == 0) {
-															statOutput(stats);
+																printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
+																printf((stats.st_mode & S_IRUSR) ? "r" : "-");
+																printf((stats.st_mode & S_IWUSR) ? "w" : "-");
+																printf((stats.st_mode & S_IXUSR) ? "x" : "-");
+																printf((stats.st_mode & S_IRGRP) ? "r" : "-"); 
+																printf((stats.st_mode & S_IWGRP) ? "w" : "-");
+																printf((stats.st_mode & S_IXGRP) ? "x" : "-");
+																printf((stats.st_mode & S_IROTH) ? "r" : "-");
+																printf((stats.st_mode & S_IWOTH) ? "w" : "-");
+																printf((stats.st_mode & S_IXOTH) ? "x" : "-");
 															printf(" ");
 															if(nFlag == 1) {
 															printf("%d", stats.st_uid);
@@ -77,18 +86,18 @@ int main(int argc, char* argv[]) {
 															}
                                                             printf(" ");
 															if(hFlag == 1) {
-																float size
+																float byteSize
 																if(stats.st_size >= 1024) {
-																	size = stats.st_size / 1024;
-																	printf ("%.1f",size);
+																	byteSize = stats.st_size / 1024;
+																	printf ("%.1f",byteSize);
 																}
 																else if(stats.st_size >= 1048576) {
-																	size = stats.st_size / 1048576;
-																	printf ("%.1f",size);
+																	byteSize = stats.st_size / 1048576;
+																	printf ("%.1f",byteSize);
 																}
 																else if(stats.st_size >= 1073741824) {
-																	size = stats.st_size / 1073741824;
-																	printf ("%.1f",size);
+																	byteSize = stats.st_size / 1073741824;
+																	printf ("%.1f",byteSize);
 																}
 																else {
 																	printf ("%ld",stats.st_size);
@@ -125,15 +134,4 @@ int main(int argc, char* argv[]) {
 
         }
 }
-function statOutput(struct stat stats) {
-	printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
-	printf((stats.st_mode & S_IRUSR) ? "r" : "-");
-	printf((stats.st_mode & S_IWUSR) ? "w" : "-");
-	printf((stats.st_mode & S_IXUSR) ? "x" : "-");
-	printf((stats.st_mode & S_IRGRP) ? "r" : "-"); 
-	printf((stats.st_mode & S_IWGRP) ? "w" : "-");
-	printf((stats.st_mode & S_IXGRP) ? "x" : "-");
-	printf((stats.st_mode & S_IROTH) ? "r" : "-");
-	printf((stats.st_mode & S_IWOTH) ? "w" : "-");
-	printf((stats.st_mode & S_IXOTH) ? "x" : "-");
-}
+
