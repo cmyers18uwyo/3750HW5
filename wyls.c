@@ -165,7 +165,7 @@ int main(int argc, char* argv[]) {
     }
 }
 
-void fileOutput(struct stat stats, struct dirent *de, struct passwd *pwd, struct group *grp, struct tm time, int nFlag,int hFlag,char dates[]) {
+void fileOutput(struct stat stats, struct dirent *de, struct passwd *pwd, struct group *grp, struct tm time, int nFlag,int hFlag,char dates) {
 printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
 printf((stats.st_mode & S_IRUSR) ? "r" : "-");
 printf((stats.st_mode & S_IWUSR) ? "w" : "-");
@@ -220,7 +220,7 @@ else {
 printf(" ");
 
 localtime_r(&stats.st_mtime, &time);
-strftime(dates, sizeof(dates), "%b %d %Y", &time);
+strftime(dates, 256, "%b %d %Y", &time);
 printf("%s",dates);
 										
 printf(" ");
