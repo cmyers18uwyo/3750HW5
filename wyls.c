@@ -228,10 +228,24 @@ void fileOutput(struct stat stats, struct dirent *de, struct tm time, int nFlag,
 	}
 	printf(" ");
 
+	struct tm nowTime;
+	*localtime(&nowTime);
+	localtime_r(&stats.st_mtime, &time);		
+	double tdif = difftime(time,nowTime);
+	if(tdif / 86400 >= 180) {
+		strftime(dates, sizeof(dates), "%b %e", &time);
+		printf("%s",dates);
+	}
+	else {
+		strftime(dates, sizeof(dates), "%b %e %Y", &time);
+		printf("%s",dates);
+	}	
+
+	/*
 	localtime_r(&stats.st_mtime, &time);
 	strftime(dates, 256, "%b %e %Y", &time);
 	printf("%s",dates);
-											
+		*/									
 	printf(" ");
 
 	printf("%s",de->d_name);
