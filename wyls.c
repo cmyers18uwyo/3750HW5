@@ -233,8 +233,8 @@ void fileOutput(struct stat stats, struct dirent *de, struct tm time, int nFlag,
 	struct tm nowTime;
 	*localtime(&nowTime);
 	localtime_r(&stats.st_mtime, &time);		
-	time_t time1(&nowTime);
-	time_t time2(&time);
+	time_t time1 = mktime(&nowTime);
+	time_t time2 = mktime(&time);
 	double tdif difftime(time1,time2);
 	if(tdif / 86400 >= 180) {
 		strftime(dates, sizeof(dates), "%b %e", &time);
