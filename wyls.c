@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
                                                             printf(" ");
 															
 															if(hFlag == 1) {
-																float byteSize
+																float byteSize;
 																long statsSize = stats.st_size;
 																if(statsSize >= 1024) {
 																	byteSize = stats.st_size / 1024;
