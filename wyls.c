@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
 						if(de->d_name[0] != '.') {
 							strcat(path,de->d_name);
 							if(stat(path,&stats) == 0) {
-								fileOutput(stats, pwd, grp, time);
+								fileOutput(stats, de, pwd, grp, time, nFlag, hFlag, dates);
 								/*
 								printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
 								printf((stats.st_mode & S_IRUSR) ? "r" : "-");
@@ -141,7 +141,7 @@ int main(int argc, char* argv[]) {
 						}
 						else {
 							if(stat(path,&stats) == 0) {
-								fileOutput(stats, pwd, grp, time);
+								fileOutput(stats, de, pwd, grp, time, nFlag, hFlag, dates);
 							}
 						}
 						fclose(infile);
@@ -161,7 +161,7 @@ int main(int argc, char* argv[]) {
 				if(de->d_name[0] != '.') {
 					strcat(path,de->d_name);
 					if(stat(path,&stats) == 0) {
-						fileOutput(stats, pwd, grp, time);
+						fileOutput(stats, de, pwd, grp, time, nFlag, hFlag, dates);
 					}
 				}
 			}
@@ -170,7 +170,7 @@ int main(int argc, char* argv[]) {
     }
 }
 
-void fileOutput(struct stat stats, struct passwd *pwd, struct group *grp, struct tm time) {
+void fileOutput(struct stat stats, struct dirent *de, struct passwd *pwd, struct group *grp, struct tm time, int nFlag, hFlag,char dates) {
 	printf((S_ISDIR(stats.st_mode)) ? "d" : "-");
 	printf((stats.st_mode & S_IRUSR) ? "r" : "-");
 	printf((stats.st_mode & S_IWUSR) ? "w" : "-");
