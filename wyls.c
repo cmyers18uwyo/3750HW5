@@ -82,6 +82,7 @@ int main(int argc, char* argv[]) {
 																pwd = getpwuid(stats.st_uid);
 																grp = getgrgid(stats.st_gid);
 																printf("%s", pwd->pw_name);
+																printf(" ");
 																printf("%s", grp->gr_name);
 															}
                                                             printf(" ");
